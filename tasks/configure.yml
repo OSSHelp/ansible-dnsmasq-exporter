@@ -1,0 +1,9 @@
+---
+- name: create main config
+  template:
+    src: dnsmasq_exporter.cfg.j2
+    dest: "{{ dnsmasq_exporter_dirs.config_dir }}/{{ dnsmasq_exporter_config_file }}"
+    owner: root
+    group: "{{ dnsmasq_exporter_user_name }}"
+    mode: 0640
+  notify: restart dnsmasq_exporter service

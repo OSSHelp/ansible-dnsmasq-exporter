@@ -1,0 +1,3 @@
+DNSMASQ_ADDRESS="{{ dnsmasq_exporter_params.address | default('localhost:53') }}"
+DNSMASQ_LEASES_PATH="{{ dnsmasq_exporter_params.leases_path | default('/var/lib/lxd/networks/lxdbr0/dnsmasq.leases') }}"
+DNSMASQ_LISTEN="{{ dnsmasq_exporter_params.listen | default('localhost:9153') }}"

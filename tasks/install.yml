@@ -1,0 +1,63 @@
+---
+- name: check if binary file exists
+  stat:
+    path: "{{ dnsmasq_exporter_dirs.binary_dir }}/dnsmasq_exporter"
+  register: binary_file
+
+- name: download and place binary
+  block:
+    - name: download binary
+      get_url:
+        url: "{{ dnsmasq_exporter_binary_url }}"
+        dest: "/tmp/dnsmasq_exporter-v{{ dnsmasq_exporter_version }}"
+        checksum: "{{ dnsmasq_exporter_binary_sums }}"
+    - name: "move binary to {{ dnsmasq_exporter_dirs.binary_dir }}"
+      copy:
+        src: "/tmp/dnsmasq_exporter-v{{ dnsmasq_exporter_version }}"
+        dest: "{{ dnsmasq_exporter_dirs.binary_dir }}/dnsmasq_exporter"
+        owner: root
+        group: root
+        mode: 0755
+        remote_src: yes
+    - name: remove temporal binary
+      file:
+        path: "/tmp/dnsmasq_exporter-v{{ dnsmasq_exporter_version }}"
+        state: absent
+  when: not binary_file.stat.exists
+
+- name: create user
+  user:
+    name: "{{ dnsmasq_exporter_user_name }}"
+    home: "/nonexistent"
+    create_home: no
+    shell: "/bin/false"
+    system: yes
+
+- name: create systemd unit
+  template:
+    src: dnsmasq_exporter.service.j2
+    dest: "{{ dnsmasq_exporter_systemd_unit }}"
+  notify:
+    - reload dnsmasq_exporter unit
+    - restart dnsmasq_exporter service
+
+- name: ensure that configuration directory exists
+  file:
+    path: "{{ dnsmasq_exporter_dirs.config_dir }}"
+    state: directory
+
+- name: create main config placeholder if doesn't exist
+  copy:
+    content: ""
+    dest: "{{ dnsmasq_exporter_dirs.config_dir }}/{{ dnsmasq_exporter_config_file }}"
+    force: no
+    owner: root
+    group: "{{ dnsmasq_exporter_user_name }}"
+    mode: 0640
+
+- meta: flush_handlers
+
+- name: enable service
+  systemd:
+    name: "{{ dnsmasq_exporter_service_name }}"
+    enabled: true

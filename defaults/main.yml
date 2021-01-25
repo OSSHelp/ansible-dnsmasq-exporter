@@ -1,0 +1,20 @@
+---
+dnsmasq_exporter_version: "0.2.0"
+
+dnsmasq_exporter_binary_url: "https://oss.help/builds/pub/dnsmasq_exporter/{{ dnsmasq_exporter_version }}/dnsmasq_exporter"
+dnsmasq_exporter_binary_sums: "sha256:https://oss.help/builds/pub/dnsmasq_exporter/{{ dnsmasq_exporter_version }}/SHA256SUMS"
+
+dnsmasq_exporter_setup: full
+dnsmasq_exporter_config_file: dnsmasq_exporter.cfg
+dnsmasq_exporter_user_name: dnsmasq_exporter
+dnsmasq_exporter_service_name: dnsmasq_exporter
+dnsmasq_exporter_systemd_unit: "/etc/systemd/system/{{ dnsmasq_exporter_service_name }}.service"
+
+dnsmasq_exporter_dirs:
+  binary_dir: /usr/local/bin
+  config_dir: /usr/local/etc/dnsmasq_exporter
+
+dnsmasq_exporter_params:
+  address: "localhost:53"
+  leases_path: "/var/lib/lxd/networks/lxdbr0/dnsmasq.leases"
+  listen: "localhost:9153"

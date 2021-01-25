@@ -1,0 +1,9 @@
+---
+- name: reload dnsmasq_exporter unit
+  systemd:
+    daemon_reload: true
+
+- name: restart dnsmasq_exporter service
+  systemd:
+    name: "{{ dnsmasq_exporter_service_name }}"
+    state: restarted

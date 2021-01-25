@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  author: OSSHelp team
+  description: Role for dnsmasq_exporer installation and configuration.
+  company: OSSHelp
+  license: GPL3
+  min_ansible_version: 2.8
+  platforms:
+    - name: Ubuntu
+      versions:
+        - xenial
+        - bionic
+  galaxy_tags:
+    - dnsmasq
+    - exporter
+    - prometheus

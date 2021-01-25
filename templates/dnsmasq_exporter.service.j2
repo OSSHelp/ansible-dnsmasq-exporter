@@ -1,0 +1,21 @@
+[Unit]
+Description=Dnsmasq Exporter
+After=lxd.service
+
+[Service]
+Type=forking
+User={{ dnsmasq_exporter_user_name }}
+Group=nogroup
+RuntimeDirectory=dnsmasq_exporter
+RuntimeDirectoryMode=0755
+EnvironmentFile={{ dnsmasq_exporter_dirs.config_dir }}/{{ dnsmasq_exporter_config_file }}
+PIDFile=/var/run/dnsmasq_exporter/pid
+ExecStart=/sbin/start-stop-daemon -Sbmp /var/run/dnsmasq_exporter/pid -x {{ dnsmasq_exporter_dirs.binary_dir }}/dnsmasq_exporter -- -dnsmasq ${DNSMASQ_ADDRESS} -leases_path ${DNSMASQ_LEASES_PATH} -listen ${DNSMASQ_LISTEN}
+Restart=always
+
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=dnsmasq_exporter
+
+[Install]
+WantedBy=multi-user.target
