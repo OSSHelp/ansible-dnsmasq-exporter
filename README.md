@@ -20,7 +20,7 @@ Role for [dnsmasq_exporer](https://github.com/google/dnsmasq_exporter) installat
 | `dnsmasq_exporter_version` | `0.2.0` | Which version to install (taken from our MinIO storage) |
 | `dnsmasq_exporter_params.address` | `localhost:53` | Address dnsmasq is listening on. |
 | `dnsmasq_exporter_params.leases_path` | `/var/lib/lxd/networks/lxdbr0/dnsmasq.leases` | Absolute path to dnsmasq leases file. |
-| `dnsmasq_exporter_params.listen` | `localhost:9153` | Address for exporter to listen on. |
+| `dnsmasq_exporter_params.listen` | `0.0.0.0:9153` | Address for exporter to listen on. |
 
 ### Misc
 

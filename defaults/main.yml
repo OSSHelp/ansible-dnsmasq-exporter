@@ -17,4 +17,4 @@ dnsmasq_exporter_dirs:
 dnsmasq_exporter_params:
   address: "localhost:53"
   leases_path: "/var/lib/lxd/networks/lxdbr0/dnsmasq.leases"
-  listen: "localhost:9153"
+  listen: "0.0.0.0:9153"
