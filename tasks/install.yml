@@ -23,7 +23,7 @@
       file:
         path: "/tmp/dnsmasq_exporter-v{{ dnsmasq_exporter_version }}"
         state: absent
-  when: not binary_file.stat.exists
+  when: not binary_file.stat.exists and not ansible_check_mode
 
 - name: create user
   user:
