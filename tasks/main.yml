@@ -1,4 +1,10 @@
 ---
+- name: gather required facts
+  setup:
+    gather_subset: [network]
+    filter: ansible_lxdbr0
+  register: dnsmasq_exporter_lxdbr0_facts
+
 - name: install
   include_tasks: install.yml
   when: dnsmasq_exporter_setup == "full" or dnsmasq_exporter_setup == "install"

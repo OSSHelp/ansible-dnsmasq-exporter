@@ -33,6 +33,20 @@
     shell: "/bin/false"
     system: yes
 
+- name: ensure that configuration directory exists
+  file:
+    path: "{{ dnsmasq_exporter_dirs.config_dir }}"
+    state: directory
+
+- name: create main config
+  template:
+    src: dnsmasq_exporter.cfg.j2
+    dest: "{{ dnsmasq_exporter_dirs.config_dir }}/{{ dnsmasq_exporter_config_file }}"
+    owner: root
+    group: "{{ dnsmasq_exporter_user_name }}"
+    mode: 0640
+  notify: restart dnsmasq_exporter service
+
 - name: create systemd unit
   template:
     src: dnsmasq_exporter.service.j2
@@ -40,20 +54,6 @@
   notify:
     - reload dnsmasq_exporter unit
     - restart dnsmasq_exporter service
-
-- name: ensure that configuration directory exists
-  file:
-    path: "{{ dnsmasq_exporter_dirs.config_dir }}"
-    state: directory
-
-- name: create main config placeholder if doesn't exist
-  copy:
-    content: ""
-    dest: "{{ dnsmasq_exporter_dirs.config_dir }}/{{ dnsmasq_exporter_config_file }}"
-    force: no
-    owner: root
-    group: "{{ dnsmasq_exporter_user_name }}"
-    mode: 0640
 
 - meta: flush_handlers
 

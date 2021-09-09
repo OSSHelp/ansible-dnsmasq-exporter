@@ -15,6 +15,6 @@ dnsmasq_exporter_dirs:
   config_dir: /usr/local/etc/dnsmasq_exporter
 
 dnsmasq_exporter_params:
-  address: "localhost:53"
+  address: "{{ dnsmasq_exporter_lxdbr0_facts.ansible_facts.ansible_lxdbr0.ipv4.address if dnsmasq_exporter_lxdbr0_facts.ansible_facts != {} else 'localhost'}}:53"
   leases_path: "/var/lib/lxd/networks/lxdbr0/dnsmasq.leases"
   listen: "0.0.0.0:9153"
